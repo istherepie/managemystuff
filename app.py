@@ -29,7 +29,6 @@ def index():
     """
 
     greeting = {
-        "status": 200,
         "message": "Hello World"
     }
 
