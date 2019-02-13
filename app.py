@@ -97,7 +97,7 @@ def new_stuff():
     return jsonify(confirmation), 201
 
 
-@app.route("/delete/<uuid:stuff_uuid>", methods=["POST"])
+@app.route("/delete/<uuid:stuff_uuid>", methods=["DELETE"])
 def delete_stuff(stuff_uuid):
     """
     Delete some stuff
@@ -107,7 +107,7 @@ def delete_stuff(stuff_uuid):
 
     error, success = db.delete(stuff_uuid)
 
-    if not error:
+    if error:
         error_response = {
             "status": "could not delete stuff",
             "errormsg": str(error)
