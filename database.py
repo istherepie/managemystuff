@@ -18,3 +18,20 @@ def store_it(stuff=None):
     # Store the stuff and return the uuid
 
     return "e0edbf2b-cb7e-4b5f-b928-437a8fd9fc3e"
+
+
+def delete(stuff_uuid):
+    """
+    Delete stuff from the database
+
+    :param stuff_uuid: Object UUID (Type: uuid/str)
+    :return: Success or Failure (Type: tuple)
+    """
+
+    try:
+        call_delete = True
+
+    except Exception as error:
+        return (error, False)
+
+    return (None, True)

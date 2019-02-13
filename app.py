@@ -75,5 +75,25 @@ def new_stuff():
     return jsonify(confirmation), 201
 
 
+@app.route("/delete/<uuid:stuff_uuid>", methods=["POST"])
+def delete_stuff(stuff_uuid):
+    """
+    Delete some stuff
+
+    :return: Stuff (Type: list)
+    """
+
+    error, success = db.delete(stuff_uuid)
+
+    if not error:
+        error_response = {
+            "status": "could not delete stuff",
+            "errormsg": str(error)
+        }
+        return jsonify(error_response), 400
+
+    return jsonify({}), 204
+
+
 if __name__ == "__main__":
     app.run(debug=True, host=host, port=port)
