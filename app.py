@@ -48,6 +48,28 @@ def all_stuff():
     return jsonify(all_the_stuff), 200
 
 
+@app.route("/get/<uuid:stuff_uuid>", methods=["GET"])
+def new_stuff(stuff_uuid):
+    """
+    Get stuff by uuid
+
+    :return: Stuff (Type: dict/json)
+    """
+
+    get_stuff = db.get_stuff(stuff_uuid)
+
+    if not get_stuff:
+        raise ValueError("This is not the stuff you are looking for")
+
+
+    response = {
+        "uuid": stuff_uuid,
+        "content": get_stuff,
+    }
+
+    return jsonify(response), 200
+
+
 @app.route("/new", methods=["POST"])
 def new_stuff():
     """

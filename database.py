@@ -13,6 +13,20 @@ def get_all_the_stuff():
         { "stuff": "Crowbar", "description": "Hard stuff" }
     ]
 
+
+def get_stuff(stuff_uuid):
+    """
+    Get stuff from the database
+
+    :param stuff_uuid: Object UUID (Type: uuid/str)
+    :return: Content from the database (Type: dict)
+    """
+    return {
+        "stuff": "floppy disk",
+        "description": "Woobly stuff"
+    }
+
+
 def store_it(stuff=None):
 
     # Store the stuff and return the uuid
