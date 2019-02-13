@@ -49,7 +49,7 @@ def all_stuff():
 
 
 @app.route("/get/<uuid:stuff_uuid>", methods=["GET"])
-def new_stuff(stuff_uuid):
+def get_stuff(stuff_uuid):
     """
     Get stuff by uuid
 
