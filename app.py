@@ -1,12 +1,16 @@
 # -- coding: utf-8 --
 
 from os import getenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g
 
-import mock_store as db
+from datastore import RethinkdbInterface
 
+def startup():
+    return Flask(__name__)
 
-app = Flask(__name__)
+app = startup()
+
+db = RethinkdbInterface()
 
 
 # Server settings
@@ -43,7 +47,7 @@ def all_stuff():
     :return: Stuff (Type: list)
     """
 
-    all_the_stuff = db.get_all_the_stuff()
+    all_the_stuff = db.all("stuff")
 
     return jsonify(all_the_stuff), 200
 
@@ -56,15 +60,10 @@ def get_stuff(stuff_uuid):
     :return: Stuff (Type: dict/json)
     """
 
-    get_stuff = db.get_stuff(stuff_uuid)
-
-    if not get_stuff:
-        raise ValueError("This is not the stuff you are looking for")
-
+    get_stuff = db.get("stuff", stuff_uuid)
 
     response = {
-        "uuid": stuff_uuid,
-        "content": get_stuff,
+       "stuff": get_stuff
     }
 
     return jsonify(response), 200
@@ -86,15 +85,9 @@ def new_stuff():
     # Do something with the new stuff
     # Store it somewhere maybe ?
 
-    return_uuid = db.store_it("stuff")
+    return_uuid = db.insert("stuff", new_stuff)
 
-    confirmation = {
-        "stored": True,
-        "uuid": return_uuid,
-        "data": new_stuff
-    }
-
-    return jsonify(confirmation), 201
+    return jsonify(return_uuid), 201
 
 
 @app.route("/delete/<uuid:stuff_uuid>", methods=["DELETE"])
@@ -105,17 +98,9 @@ def delete_stuff(stuff_uuid):
     :return: Stuff (Type: list)
     """
 
-    error, success = db.delete(stuff_uuid)
+    status = db.delete("stuff", stuff_uuid)
 
-    if error:
-        error_response = {
-            "status": "could not delete stuff",
-            "errormsg": str(error)
-        }
-        return jsonify(error_response), 400
-
-    return jsonify({}), 204
-
+    return jsonify(status), 200
 
 if __name__ == "__main__":
-    app.run(debug=True, host=host, port=port)
+    app.run(debug=True, host="0.0.0.0", port=8081)

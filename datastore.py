@@ -8,9 +8,9 @@ class RethinkdbInterface(object):
     INTERFACE
     """
 
-    def __init__(self, db_name="stuff"):
+    def __init__(self, db=r, db_name="stuff"):
         self.db_name = db_name
-        self.conn = r.connect()
+        self.conn = r.connect(db=db_name)
 
     def table(self, table_name):
         """
@@ -27,7 +27,8 @@ class RethinkdbInterface(object):
         :return:
         """
         query = self.table(table_name)
-        return self.runner(query)
+        result = self.runner(query)
+        return list(result)
 
     def get(self, table_name, identifier):
         """
@@ -36,6 +37,8 @@ class RethinkdbInterface(object):
         :param identifier:
         :return:
         """
+
+        identifier = str(identifier)
 
         query = self.table(table_name).get(identifier)
         return self.runner(query)
@@ -63,6 +66,18 @@ class RethinkdbInterface(object):
         query = self.table(table_name).insert(data)
 
         return self.runner(query)
+
+    def delete(self, table_name, identifier):
+
+        identifier = str(identifier)
+
+        stuff = self.table(table_name).get(identifier)
+
+        delete = self.runner(
+            stuff.delete()
+        )
+
+        return delete
 
     def runner(self, query):
         """
