@@ -3,7 +3,7 @@
 from os import getenv
 from flask import Flask, jsonify, request
 
-import database as db
+import mock_store as db
 
 
 app = Flask(__name__)
