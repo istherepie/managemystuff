@@ -1,7 +1,7 @@
 # -- coding: utf-8 --
 
 import rethinkdb as r
-from datastore import RethinkdbInterface
+from webapi.datastore import RethinkdbInterface
 
 
 class DbHelper(RethinkdbInterface):

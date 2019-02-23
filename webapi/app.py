@@ -1,9 +1,9 @@
 # -- coding: utf-8 --
 
 from os import getenv
-from flask import Flask, jsonify, request, g
+from flask import Flask, jsonify, request
 
-from datastore import RethinkdbInterface
+from webapi.datastore import RethinkdbInterface
 
 def startup():
     return Flask(__name__)
