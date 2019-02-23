@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  db:
+    image: rethinkdb:2.3.6
+    ports:
+     - "28015"
+    volumes:
+     - ./data:/data
+    command: rethinkdb --bind all
+
+  managemystuff:
+    build: webapi
+    image: managemystuff:development
+    command: >
+      sh -c "python bootstrap.py &&
+             gunicorn -w4 -b:5000 app:app"
+    depends_on:
+      - db
+    ports:
+     - "5000:5000"
