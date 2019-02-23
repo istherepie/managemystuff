@@ -1,0 +1,26 @@
+stages:
+  - prep
+  - test
+
+
+variables:
+  RESOURCE: 23E5F251-1799-4444-BBCD-1A109921633A
+
+
+Preparing container:
+  stage: prep
+  script:
+    - echo "Building container"
+  tags: 
+    - build_dev
+    
+    
+Run the test suite:
+  stage: test
+  script:
+    - echo "Running tests"
+  tags: 
+    - build_dev
+    
+
+
