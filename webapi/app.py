@@ -3,7 +3,7 @@
 from os import getenv
 from flask import Flask, jsonify, request
 
-from webapi.datastore import RethinkdbInterface
+from datastore import RethinkdbInterface
 
 def startup():
     return Flask(__name__)
@@ -11,6 +11,7 @@ def startup():
 app = startup()
 
 db = RethinkdbInterface()
+db.ready()
 
 
 # Server settings

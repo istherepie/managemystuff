@@ -1,6 +1,7 @@
 # -- coding: utf-8 --
 
-import rethinkdb as r
+import rethinkdb
+from settings import DB_HOST, DB_PORT, DB_NAME
 
 
 class RethinkdbInterface(object):
@@ -8,9 +9,14 @@ class RethinkdbInterface(object):
     INTERFACE
     """
 
-    def __init__(self, db=r, db_name="stuff"):
+    def __init__(self, db=rethinkdb, host=DB_HOST,
+                 port=DB_PORT, db_name=DB_NAME):
+        self.db = db
         self.db_name = db_name
-        self.conn = r.connect(db=db_name)
+        self.conn = db.connect(host=host, port=port)
+
+    def ready(self):
+        self.conn.use(self.db_name)
 
     def table(self, table_name):
         """
@@ -18,7 +24,7 @@ class RethinkdbInterface(object):
         :param table_name:
         :return:
         """
-        return r.table(table_name)
+        return self.db.table(table_name)
 
     def all(self, table_name):
         """
