@@ -2,6 +2,7 @@ stages:
   - prep
   - test
   - staging
+  - deploy
 
 
 variables:
@@ -35,7 +36,7 @@ Build and register container:
 
 
 Call for deployment:
-  stage: staging
+  stage: deploy
   script:
     - echo "Deploying ${CI_COMMIT_TAG}"
   tags:
