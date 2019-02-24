@@ -12,7 +12,7 @@ variables:
 Preparing container:
   stage: prep
   script:
-    - docker build -t nodebender/managemystuff:testing webapi
+    - docker build -t ${REG_VENDOR}/${REG_REPO}:testing webapi
   tags: 
     - build_dev
     
@@ -20,7 +20,7 @@ Preparing container:
 Run the test suite:
   stage: test
   script:
-    - docker run --rm nodebender/managemystuff:testing pytest --log-cli-level 0
+    - docker run --rm ${REG_VENDOR}/${REG_REPO}:testing pytest --log-cli-level 0
   tags: 
     - build_dev
 
